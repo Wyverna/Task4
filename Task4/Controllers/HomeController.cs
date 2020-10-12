@@ -46,7 +46,6 @@ namespace Task4.Controllers
                 User user = await _userManager.FindByIdAsync(i);
                 user.Status = "Blocked";
                 await _userManager.UpdateAsync(user);
-                await _signInManager.RefreshSignInAsync(user);
             }
             return RedirectToAction("Index", "Home"); ;
         }
@@ -58,7 +57,6 @@ namespace Task4.Controllers
                 User user = await _userManager.FindByIdAsync(i);
                 user.Status = "Unblocked";
                 await _userManager.UpdateAsync(user);
-                await _signInManager.RefreshSignInAsync(user);
             }
             return RedirectToAction("Index", "Home"); ;
         }
