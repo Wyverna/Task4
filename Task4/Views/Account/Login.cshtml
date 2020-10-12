@@ -1,0 +1,23 @@
+﻿
+@model Task4.ViewModels.LoginViewModel
+
+<h2>Enter in system</h2>
+@Html.ValidationSummary()
+<form method="post" asp-controller="Account" asp-action="Login">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label class="col-form-label" asp-for="UserName"></label><br />
+        <input class="form-control" asp-for="UserName" />
+        <span asp-validation-for="UserName"></span>
+    </div>
+    <div class="form-group">
+        <label class="col-form-label" asp-for="Password"></label><br />
+        <input class="form-control" asp-for="Password" />
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div class="form-group">
+        <input class="form-control" type="submit" value="Sign in" />
+
+    </div>
+</form>
+<button class="form-control" onclick='location.href="./Register"'>Sign up</button>
