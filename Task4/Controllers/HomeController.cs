@@ -21,10 +21,13 @@ namespace Task4.Controllers
 
         public async Task<IActionResult> Index()
         {
-            if(User.Identity.IsAuthenticated)
-                if((await _userManager.FindByNameAsync(User.Identity.Name)).Status != "Blocked")
-                return View(_userManager.Users.ToList());
-            return RedirectToAction("Login", "Account");
+            try {
+                if (User.Identity.IsAuthenticated)
+                    if ((await _userManager.FindByNameAsync(User.Identity.Name)).Status != "Blocked")
+                        return View(_userManager.Users.ToList());
+                return RedirectToAction("Login", "Account"); }
+            catch (Exception e) {
+                return RedirectToAction("Login", "Account");}
         }
         [HttpPost]
         public async Task<IActionResult> Method(String submit2,String[] id)
@@ -63,7 +66,12 @@ namespace Task4.Controllers
         public async Task<IActionResult> Delete()
         {
             foreach (String i in (String[])TempData["id"])
-                await _userManager.DeleteAsync((await _userManager.FindByIdAsync(i)));
+            {
+                User user = await _userManager.FindByIdAsync(i);
+                if (User.Identity.Name == user.UserName)
+                    await _signInManager.SignOutAsync();
+                await _userManager.DeleteAsync(user);
+            }
             return RedirectToAction("Index", "Home"); ;
         }
 
